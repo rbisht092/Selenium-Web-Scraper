@@ -6,7 +6,7 @@ This Python-based web scraper utilizes Selenium to extract data from a blog webs
 
 **Automation:** The script automates the process of fetching blog details, reducing manual effort.
 - **Multiple Page Support:** It can scrape data from multiple pages of the target website.
-- 
+- The collected data is stored in a csv for later use.
 
 ## Prerequisites
 
