@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+import datetime
 
 # Open a CSV file for writing
 with open("data.csv", mode="w", encoding="utf-8") as csv_file:
@@ -39,9 +40,16 @@ with open("data.csv", mode="w", encoding="utf-8") as csv_file:
                 no_of_blog = no_of_blogs[j].find_element(By.CLASS_NAME, "content")
                 bname = no_of_blog.find_element(By.TAG_NAME, "a").text
                 likes = no_of_blog.find_element(By.CLASS_NAME, "zilla-likes").text
+
                 date = no_of_blog.find_element(
                     By.XPATH, f"(//div[@class='blog-detail']/div/span)[{1+j*2}]"
                 ).text
+                try:
+                    new_date = datetime.datetime.strptime(date, "%B %d, %Y")
+                    # Format the date in the desired format DD-MM-YYYY
+                    formatted_date = new_date.strftime("%d-%m-%Y")
+                except:
+                    date = ""
 
                 try:
                     img = no_of_blogs[j].find_element(By.CLASS_NAME, "img")
@@ -52,7 +60,7 @@ with open("data.csv", mode="w", encoding="utf-8") as csv_file:
                     img_url = ""
 
                 # Write data to the CSV file
-                csv_file.write(f'"{bname}",{likes},"{date}",{img_url}\n')
+                csv_file.write(f'"{bname}",{likes},"{formatted_date}",{img_url}\n')
 
             except NoSuchElementException:
                 # Handle if any element within a blog is not found
